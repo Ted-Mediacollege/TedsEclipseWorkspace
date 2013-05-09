@@ -41,10 +41,10 @@ public class World
 		{
 			if(Math.floor(Math.random() * 4) == 0){vehicles.add(new EntityCarRight("CarRight", -2, 18, (int) Math.floor(Math.random() * 10), (int) Math.floor(Math.random() * 10) + 35, (int) Math.floor(Math.random() * 10)));}
 			if(Math.floor(Math.random() * 4) == 0){vehicles.add(new EntityCarLeft("CarLeft", 42, 17, (int) Math.floor(Math.random() * 10), (int) Math.floor(Math.random() * 10) + 35, (int) Math.floor(Math.random() * 10)));}
-			if(Math.floor(Math.random() * 3) == 0){vehicles.add(new EntityCarDown("CarDown", 19, -2, (int) Math.floor(Math.random() * 10), (int) Math.floor(Math.random() * 10) + 65, (int) Math.floor(Math.random() * 10)));}
-			if(Math.floor(Math.random() * 3) == 0){vehicles.add(new EntityCarDown("CarDown", 18, -2, (int) Math.floor(Math.random() * 10), (int) Math.floor(Math.random() * 10) + 55, (int) Math.floor(Math.random() * 10)));}
-			if(Math.floor(Math.random() * 3) == 0){vehicles.add(new EntityCarUp("CarUp", 20, 41, (int) Math.floor(Math.random() * 10), (int) Math.floor(Math.random() * 10) + 65, (int) Math.floor(Math.random() * 10)));}
-			if(Math.floor(Math.random() * 3) == 0){vehicles.add(new EntityCarUp("CarUp", 21, 41, (int) Math.floor(Math.random() * 10), (int) Math.floor(Math.random() * 10) + 55, (int) Math.floor(Math.random() * 10)));}
+			if(Math.floor(Math.random() * 5) == 0){vehicles.add(new EntityCarDown("CarDown", 19, -2, (int) Math.floor(Math.random() * 10), (int) Math.floor(Math.random() * 10) + 65, (int) Math.floor(Math.random() * 10)));}
+			if(Math.floor(Math.random() * 5) == 0){vehicles.add(new EntityCarDown("CarDown", 18, -2, (int) Math.floor(Math.random() * 10), (int) Math.floor(Math.random() * 10) + 55, (int) Math.floor(Math.random() * 10)));}
+			if(Math.floor(Math.random() * 5) == 0){vehicles.add(new EntityCarUp("CarUp", 20, 41, (int) Math.floor(Math.random() * 10), (int) Math.floor(Math.random() * 10) + 65, (int) Math.floor(Math.random() * 10)));}
+			if(Math.floor(Math.random() * 5) == 0){vehicles.add(new EntityCarUp("CarUp", 21, 41, (int) Math.floor(Math.random() * 10), (int) Math.floor(Math.random() * 10) + 55, (int) Math.floor(Math.random() * 10)));}
 			vehicletimer = 30*2;
 		}
 		vehicletimer--;
@@ -73,7 +73,7 @@ public class World
 			{
 				World.trafficlights.get(2).state = false; 
 				World.trafficlights.get(3).state = false; 
-				crossingtimer = 500; 
+				crossingtimer = 400; 
 			}
 			else
 			{

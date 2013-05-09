@@ -31,8 +31,6 @@ public class EntityCarRight extends EntityCar
 	
 	public void tick()
 	{
-		collision();
-		
 		if(trafficlights() || collision())
 		{
 			if(cSpeed > 1)
@@ -46,12 +44,12 @@ public class EntityCarRight extends EntityCar
 		}
 		else if(cSpeed < mSpeed)
 		{
-			cSpeed++;
+			cSpeed ++;
 		}
 		
 		hitbox[1] = extra + 24 + ((int) Math.floor(cSpeed));
 		
-		posX += (int) cSpeed / 40F;
+		posX += (float) cSpeed / 40F;
 	}
 	
 	public boolean trafficlights()

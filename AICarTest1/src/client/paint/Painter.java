@@ -202,6 +202,9 @@ public class Painter extends JPanel implements Runnable
 				if(World.vehicles.get(m).dir == 2) { g.drawOval(x + h[1] - 3, y - 3, 6, 6); } 
 				if(World.vehicles.get(m).dir == 3) { g.drawOval(x - 3, y + h[3] - 3, 6, 6); }
 				if(World.vehicles.get(m).dir == 4) { g.drawOval(x + h[0] - 3, y - 3, 6, 6); }
+				
+				g.setColor(new Color(255, 255, 255));
+				g.drawString(World.vehicles.get(m).cSpeed + "", x + 15, y + 25);
 			}
 		}
 		

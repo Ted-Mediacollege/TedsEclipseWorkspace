@@ -13,6 +13,8 @@ public class World
 	
 	public void tick()
 	{
+		load();
+		
 		if(GetDistance((int) ball[0], (int) ball[1], path[(int) ball[3]][0], path[(int)ball[3]][1]) < 20.0D )
 		{
 			ball[3]++;
@@ -34,11 +36,11 @@ public class World
 		
 		if(GetDegreeFromPoint((int) ball[0], (int) ball[1], path[(int) ball[3]][0], path[(int) ball[3]][1]) < ball[2])
 		{
-			ball[2] -= 5.0D;
+			ball[2] -= 3.0D;
 		}
 		if(GetDegreeFromPoint((int) ball[0], (int) ball[1], path[(int) ball[3]][0], path[(int) ball[3]][1]) > ball[2])
 		{
-			ball[2] += 5.0D;
+			ball[2] += 3.0D;
 		}
 		
 		ball[0] += ball[4] * Math.cos(ball[2] * Math.PI / 180.0);
@@ -62,9 +64,12 @@ public class World
 		ball[2] = 45;
 		ball[3] = 0;
 		ball[4] = 2.0D;
-		
-		path[0][0] = 200; path[0][1] = 200;
-		path[1][0] = 500; path[1][1] = 300;
+	}
+	
+	public void load()
+	{
+		path[0][0] = 100; path[0][1] = 200;
+		path[1][0] = 500; path[1][1] = 200;
 		path[2][0] = 800; path[2][1] = 200;
 		path[3][0] = 700; path[3][1] = 400;
 		path[4][0] = 800; path[4][1] = 600;
