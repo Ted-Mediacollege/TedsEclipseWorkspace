@@ -3,15 +3,17 @@ package client.path;
 public class Path 
 {
 	public int[][] path;
+	public String pathName;
 	
-	public Path(int[] pathsX, int[] pathsY)
+	public Path(String n, int[] pathsX, int[] pathsY)
 	{
+		pathName = n;
 		path = new int[pathsX.length][2];
 		
-		for(int i = 0; i < path.length; i++)
+		for(int j = 0; j < path.length; j++)
 		{
-			path[i][0] = pathsX[i];
-			path[i][1] = pathsY[i];
+			path[j][0] = pathsX[j];
+			path[j][1] = pathsY[j];
 		}
 	}
 }
