@@ -15,6 +15,8 @@ public class Entity
 	public int point;
 	
 	public double[][] hitbox = new double[4][2];
+	public double targetX;
+	public double targetY;
 	
 	public Entity(int x, int y, int r, int s)
 	{
@@ -29,20 +31,52 @@ public class Entity
 	
 	public void tick()
 	{
-		//check for new paths
-		if(path == -1)
+		checkForNewPaths();
+		checkForNextPoint();
+		rotate();
+		updateHitboxes();
+		boolean[] checks = checkHitboxes();
+		updateSpeed(checks[0], checks[1]);
+		
+		posX = Coords.getNextX(posX, posR, (double) cSpeed / 100D);
+		posY = Coords.getNextY(posY, posR, (double) cSpeed / 100D);
+	}
+	
+	public void checkForNewPaths()
+	{
+		if(path == -1) 
 		{
 			path = -1;
-			lookForPaths();
+			
+			int[] paths = new int[20];
+			int count = 0;
+			
+			for(int p = 0; p < World.paths.size(); p++)
+			{
+				if(World.paths.get(p).path[0][0] > posX - 10 && World.paths.get(p).path[0][0] < posX + 10 &&
+				   World.paths.get(p).path[0][1] > posY - 10 && World.paths.get(p).path[0][1] < posY + 10)
+				{
+					paths[count] = p;
+					count++;
+				}
+			}
+			
+			if(count > 0)
+			{
+				point = 0;
+				path = paths[(int) Math.floor(Math.random() * count)];
+			}
 		}
-
-		//check for next point
-		if(path > -1)
-		{
+	}
+	
+	public void checkForNextPoint()
+	{
+		if(path > -1) 
+		{ 
 			double nextPointX = World.paths.get(path).path[point][0];
 			double nextPointY = World.paths.get(path).path[point][1];
 			
-			if(Coords.getDistance(posX, posY, nextPointX, nextPointY) < 20.0D)
+			if(Coords.getDistance(posX, posY, nextPointX, nextPointY) < 10.0D)
 			{
 				point++;
 				
@@ -53,9 +87,11 @@ public class Entity
 				}
 			}
 		}
-		
-		//rotating
-		if(path > -1)
+	}
+	
+	public void rotate()
+	{
+		if(path > -1) 
 		{
 			double nextPointX = World.paths.get(path).path[point][0];
 			double nextPointY = World.paths.get(path).path[point][1];
@@ -100,81 +136,81 @@ public class Entity
 				}
 			}
 		}
-		
-		//update hitbox
-		hitbox[0][0] = Coords.getNextX(Coords.getNextX(posX, posR, 10), posR + 90, 10);
-		hitbox[0][1] = Coords.getNextY(Coords.getNextY(posY, posR, 10), posR + 90, 10);
-		hitbox[1][0] = Coords.getNextX(Coords.getNextX(posX, posR, 10), posR - 90, 10);
-		hitbox[1][1] = Coords.getNextY(Coords.getNextY(posY, posR, 10), posR - 90, 10);
-		hitbox[2][0] = Coords.getNextX(Coords.getNextX(posX, posR, 30), posR + 90, 10);
-		hitbox[2][1] = Coords.getNextY(Coords.getNextY(posY, posR, 30), posR + 90, 10);
-		hitbox[3][0] = Coords.getNextX(Coords.getNextX(posX, posR, 30), posR - 90, 10);
-		hitbox[3][1] = Coords.getNextY(Coords.getNextY(posY, posR, 30), posR - 90, 10);
-		
-		//check hitbox
-		boolean hit = false;
-		for(int v = 0; v < World.vehicles.size(); v++)
+	}
+	
+	public void updateSpeed(boolean hit, boolean trafficlight)
+	{
+		if(hit || trafficlight)
 		{
-			int count = 0;
-			if(Coords.getDistance(World.vehicles.get(v).posX, World.vehicles.get(v).posY, hitbox[0][0], hitbox[0][1]) < 20D)
+			if(cSpeed > 4)
 			{
-				count++;
-			}
-			if(Coords.getDistance(World.vehicles.get(v).posX, World.vehicles.get(v).posY, hitbox[1][0], hitbox[1][1]) < 20D)
-			{
-				count++;
-			}
-			if(Coords.getDistance(World.vehicles.get(v).posX, World.vehicles.get(v).posY, hitbox[2][0], hitbox[2][1]) < 20D)
-			{
-				count++;
-			}
-			if(Coords.getDistance(World.vehicles.get(v).posX, World.vehicles.get(v).posY, hitbox[3][0], hitbox[3][1]) < 20D)
-			{
-				count++;
-			}
-			
-			if(count > 3)
-			{
-				hit = true;
-			}
-		}
-		
-		//set speed
-		if(hit)
-		{
-			if(cSpeed > 0)
-			{
-				cSpeed -= 4;
+				cSpeed -= 5;
 			}
 		}
 		else if(cSpeed < mSpeed)
 		{
-			cSpeed ++;
+			cSpeed += 5;
 		}
-		
-		posX = Coords.getNextX(posX, posR, (double) cSpeed / 100D);
-		posY = Coords.getNextY(posY, posR, (double) cSpeed / 100D);
 	}
 	
-	public void lookForPaths()
+	public void updateHitboxes()
 	{
-		int[] paths = new int[20];
-		int count = 0;
+		targetX = Coords.getNextX(posX, posR, 40);
+		targetY = Coords.getNextY(posY, posR, 40);
+		hitbox[0][0] = Coords.getNextX(Coords.getNextX(posX, posR, 10), posR + 90, 15);
+		hitbox[0][1] = Coords.getNextY(Coords.getNextY(posY, posR, 10), posR + 90, 15);
+		hitbox[1][0] = Coords.getNextX(Coords.getNextX(posX, posR, 10), posR - 90, 15);
+		hitbox[1][1] = Coords.getNextY(Coords.getNextY(posY, posR, 10), posR - 90, 15);
+		hitbox[2][0] = Coords.getNextX(Coords.getNextX(posX, posR, 40), posR + 90, 15);
+		hitbox[2][1] = Coords.getNextY(Coords.getNextY(posY, posR, 40), posR + 90, 15);
+		hitbox[3][0] = Coords.getNextX(Coords.getNextX(posX, posR, 40), posR - 90, 15);
+		hitbox[3][1] = Coords.getNextY(Coords.getNextY(posY, posR, 40), posR - 90, 15);
+	}
+	
+	public boolean[] checkHitboxes()
+	{
+		boolean[] checks = new boolean[2];
 		
-		for(int p = 0; p < World.paths.size(); p++)
+		checks[0] = false;
+		for(int v = 0; v < World.vehicles.size(); v++)
 		{
-			if(World.paths.get(p).path[0][0] > posX - 10 && World.paths.get(p).path[0][0] < posX + 10 &&
-			   World.paths.get(p).path[0][1] > posY - 10 && World.paths.get(p).path[0][1] < posY + 10)
+			int count = 0;
+			if(Coords.getDistance(World.vehicles.get(v).posX, World.vehicles.get(v).posY, hitbox[0][0], hitbox[0][1]) < 30D)
 			{
-				paths[count] = p;
 				count++;
+			}
+			if(Coords.getDistance(World.vehicles.get(v).posX, World.vehicles.get(v).posY, hitbox[1][0], hitbox[1][1]) < 30D)
+			{
+				count++;
+			}
+			if(Coords.getDistance(World.vehicles.get(v).posX, World.vehicles.get(v).posY, hitbox[2][0], hitbox[2][1]) < 30D)
+			{
+				count++;
+			}
+			if(Coords.getDistance(World.vehicles.get(v).posX, World.vehicles.get(v).posY, hitbox[3][0], hitbox[3][1]) < 30D)
+			{
+				count++;
+			}
+				
+			if(count > 3)
+			{
+				checks[0] = true;
 			}
 		}
 		
-		if(count > 0)
+		checks[1] = false;
+		for(int t = 0; t < World.trafficlights.size(); t++)
 		{
-			point = 0;
-			path = paths[(int) Math.floor(Math.random() * count)];
+			if( targetX > World.trafficlights.get(t).x1 &&
+				targetX < World.trafficlights.get(t).x2 &&
+				targetY > World.trafficlights.get(t).y1 &&
+				targetY < World.trafficlights.get(t).y2 &&
+				World.trafficlights.get(t).closed == true)
+			{
+				checks[1] = true;
+			}
 		}
+		
+		return checks;
 	}
 }
