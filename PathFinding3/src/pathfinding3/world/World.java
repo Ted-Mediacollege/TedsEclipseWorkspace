@@ -16,6 +16,8 @@ public class World
 	public static boolean calculating;
 	public static int calctimer;
 	
+	public static int worldtimer = 180;
+	
 	public static boolean calculated;
 	public static ArrayList<int[]> path;
 	
@@ -83,6 +85,13 @@ public class World
 	
 	public void tick()
 	{
+		worldtimer--;
+		if(worldtimer < 0)
+		{
+			createNewWorld();
+			worldtimer = 180;
+		}
+		
 		calctimer--;
 		if(calctimer < 0)
 		{
