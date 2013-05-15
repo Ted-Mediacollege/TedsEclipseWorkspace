@@ -2,11 +2,11 @@ package client.world;
 
 import java.util.ArrayList;
 
-import client.anim.Animation;
 import client.entity.EntityBullet;
 import client.entity.EntityPlayer;
 import client.entity.EntityPlayerOther;
 import client.entity.EntityProjectile;
+import client.fx.Animation;
 import client.network.Network;
 import client.util.Coords;
 

@@ -10,6 +10,7 @@ public class Player
 	public double posY;
 	public double velX;
 	public double velY;
+	public float health;
 	
 	public Player(int i)
 	{
@@ -18,5 +19,6 @@ public class Player
 		posY = 10;
 		velX = 0;
 		velY = 0;
+		health = 20F;
 	}
 }

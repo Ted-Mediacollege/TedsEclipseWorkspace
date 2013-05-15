@@ -10,6 +10,8 @@ public class EntityPlayerOther extends EntityLiving
 		id = i;
 		onfeet = false;
 		
+		health = 20F;
+		
 		posX = x;
 		posY = y;
 		velX = vx;

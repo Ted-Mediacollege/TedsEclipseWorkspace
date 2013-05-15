@@ -34,7 +34,6 @@ public class Network implements Runnable
 	{
 		try 
 		{ 
-			
 			conection = new ClientConnection(new clientListener(), ServerIP , ServerPort, false);
 			conection.connect(200);
 			
@@ -42,7 +41,7 @@ public class Network implements Runnable
 			{
 				conection.send(queue.get(q).getBytes(), Delivery.RELIABLE);
 			}
-			
+
 			queue = new ArrayList<String>();
 		}
 		catch(Exception exception)

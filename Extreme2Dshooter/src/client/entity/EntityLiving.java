@@ -8,6 +8,7 @@ public class EntityLiving extends Entity
 	public boolean onfeet;
 	public double velX;
 	public double velY;
+	public float health;
 	public int[][] hitbox = new int[4][2];
 	
 	public boolean[] collision()

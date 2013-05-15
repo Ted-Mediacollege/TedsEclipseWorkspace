@@ -126,7 +126,6 @@ public class Extreme2Dshooter extends JFrame
 	    public void keyPressed(KeyEvent e) 
 	    {
 	    	int k = e.getKeyCode();
-	    	System.out.println(k);
 	    	if(k==87){keyinput[0]=true;}//up
 	    	if(k==68){keyinput[1]=true;}//right
 	    	if(k==65){keyinput[2]=true;}//left

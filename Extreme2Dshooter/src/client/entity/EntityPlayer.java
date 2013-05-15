@@ -7,6 +7,8 @@ public class EntityPlayer extends EntityLiving
 		name = "Player";
 		onfeet = false;
 		
+		health = 20F;
+		
 		posX = x;
 		posY = y;
 		velX = 0;

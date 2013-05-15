@@ -3,32 +3,22 @@ package client.draw;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.File;
-
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
-import client.Extreme2Dshooter;
-import client.network.Network;
-import client.world.World;
 
 public class Draw extends JPanel implements Runnable
 {
 	private static final long serialVersionUID = 1L;
-	
-	private BufferedImage terrainTextures;
+
+	private DrawPlayer drawplayer = new DrawPlayer();
+	private DrawPlayersOther drawothers = new DrawPlayersOther();
+	private DrawProjectiles drawprojectiles = new DrawProjectiles();
+	private DrawTerrain drawterrain = new DrawTerrain();
+	private DrawEffects draweffects = new DrawEffects();
+	private DrawDebug drawdebug = new DrawDebug();
+	private DrawGui drawgui = new DrawGui();
 
 	public Draw()
 	{
-		try
-		{
-			terrainTextures = ImageIO.read(new File("textures/terrain.png"));
-		}
-		catch(Exception e)
-		{
-			System.out.println("Cannot load textures");
-		}
 	}
 
 	public void paint(Graphics g)
@@ -37,61 +27,14 @@ public class Draw extends JPanel implements Runnable
 
 		g.setColor(new Color(205, 205, 255));
 		g.fillRect(0, 0, 40*24, 30*24);
-
-		g.setColor(new Color(255, 0, 0));
-		g.drawRect((int) Math.floor(World.player.posX - 12), (int) Math.floor(World.player.posY - 12), 24, 24);
 		
-		for(int a = 0; a < World.players.size(); a++)
-		{
-			if(World.players.get(a).id != Network.playerid)
-			{
-				g.setColor(new Color(255, 255, 0));
-				g.drawRect((int) Math.floor(World.players.get(a).posX - 12), (int) Math.floor(World.players.get(a).posY - 12), 24, 24);
-			}
-		}
-		
-		for(int b = 0; b < World.projectiles.size(); b++)
-		{
-			if(World.projectiles.get(b).explodable)
-			{
-				g.setColor(new Color(255, 0, 0));
-			}
-			else
-			{
-				g.setColor(new Color(255, 255, 0));
-			}
-			g.drawOval((int) Math.floor(World.projectiles.get(b).posX) - 5, (int) Math.floor(World.projectiles.get(b).posY) - 5, 10, 10);
-		}
-		
-		for(int i = 0; i < World.level.length; i++)
-		{
-			for(int j = 0; j < World.level[0].length; j++)
-			{
-				int tx = World.level[i][j];
-				int ty = 0;
-				
-				while(tx > 9)
-				{
-					tx -= 10;
-					ty += 1;
-				}
-				
-				g.drawImage(
-					terrainTextures, 
-					i * 24, 
-					j * 24, 
-					i * 24 + 24, 
-					j * 24 + 24, 
-					tx * 24, 
-					ty * 24, 
-					tx * 24 + 24, 
-					ty * 24 + 24, 
-					null);
-			}
-		}
-		
-		g.setColor(new Color(0, 0, 0));
-		g.drawString("FPS: " + Extreme2Dshooter.fps , 10, 15);
+		drawplayer.paint(g);
+		drawothers.paint(g);
+		draweffects.paint(g);
+		drawprojectiles.paint(g);
+		drawterrain.paint(g);
+		drawgui.paint(g);
+		drawdebug.paint(g);
 
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
