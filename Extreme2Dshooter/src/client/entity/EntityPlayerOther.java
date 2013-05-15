@@ -1,6 +1,6 @@
 package client.entity;
 
-public class EntityPlayerOther extends Entity
+public class EntityPlayerOther extends EntityLiving
 {
 	public int id = -1;
 	

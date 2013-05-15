@@ -2,7 +2,10 @@ package client.network;
 
 import java.util.ArrayList;
 
+import client.entity.EntityBullet;
 import client.entity.EntityPlayerOther;
+import client.entity.EntityRocket;
+import client.util.Coords;
 import client.world.World;
 
 import jexxus.client.ClientConnection;
@@ -31,7 +34,7 @@ public class Network implements Runnable
 	{
 		try 
 		{ 
-			/*
+			
 			conection = new ClientConnection(new clientListener(), ServerIP , ServerPort, false);
 			conection.connect(200);
 			
@@ -39,7 +42,7 @@ public class Network implements Runnable
 			{
 				conection.send(queue.get(q).getBytes(), Delivery.RELIABLE);
 			}
-			*/
+			
 			queue = new ArrayList<String>();
 		}
 		catch(Exception exception)
@@ -92,6 +95,23 @@ public class Network implements Runnable
 						World.players.get(id).posY = Double.parseDouble(playerdatasplit[1]);
 						World.players.get(id).velX = Double.parseDouble(playerdatasplit[2]);
 						World.players.get(id).velY = Double.parseDouble(playerdatasplit[3]);
+					}
+				}
+				else if(datasplit[0].equals("projectile"))
+				{
+					String[] projectiledatasplit = new String(datasplit[2]).split("&");
+					int id = World.getPlayerFromID(Integer.parseInt(datasplit[1]));
+					
+					if(id != playerid)
+					{
+						if(Integer.parseInt(projectiledatasplit[3]) == 0)
+						{
+							World.projectiles.add(new EntityBullet(id, Double.parseDouble(projectiledatasplit[0]), Double.parseDouble(projectiledatasplit[1]), Double.parseDouble(projectiledatasplit[2])));
+						}
+						if(Integer.parseInt(projectiledatasplit[3]) == 1)
+						{
+							World.projectiles.add(new EntityRocket(id, Double.parseDouble(projectiledatasplit[0]), Double.parseDouble(projectiledatasplit[1]), Double.parseDouble(projectiledatasplit[2])));
+						}
 					}
 				}
 			}

@@ -39,31 +39,47 @@ public class Network
 				String registerstring = "register#" + PlayerList.nextID;
 				PlayerList.players.add(new Player(PlayerList.nextID)); PlayerList.nextID++;
 				from.send(registerstring.getBytes(), Delivery.RELIABLE);
-				from.send("end".getBytes(), Delivery.RELIABLE);
 			}
-			else if(datasplit[0].equals("player"))
+			else
 			{
 				int id = PlayerList.getPlayerFromID(Integer.parseInt(datasplit[1]));
 				
-				if(id > -1)
-				{
-					String[] playerdatasplit = new String(datasplit[2]).split("&");
-					
-					PlayerList.players.get(id).posX = Double.parseDouble(playerdatasplit[0]);
-					PlayerList.players.get(id).posY = Double.parseDouble(playerdatasplit[1]);
-					PlayerList.players.get(id).velX = Double.parseDouble(playerdatasplit[2]);
-					PlayerList.players.get(id).velY = Double.parseDouble(playerdatasplit[3]);
+				if(datasplit[0].equals("player"))
+				{	
+					if(id > -1)
+					{
+						String[] playerdatasplit = new String(datasplit[2]).split("&");
+						
+						PlayerList.players.get(id).posX = Double.parseDouble(playerdatasplit[0]);
+						PlayerList.players.get(id).posY = Double.parseDouble(playerdatasplit[1]);
+						PlayerList.players.get(id).velX = Double.parseDouble(playerdatasplit[2]);
+						PlayerList.players.get(id).velY = Double.parseDouble(playerdatasplit[3]);
+					}
 					
 					for(int p = 0; p < PlayerList.players.size(); p++)
 					{
 						String newstring = "player#" + PlayerList.players.get(p).id + "#" + PlayerList.players.get(p).posX + "&" + PlayerList.players.get(p).posY + "&" + PlayerList.players.get(p).velX + "&" + PlayerList.players.get(p).velY;
 						from.send(newstring.getBytes(), Delivery.RELIABLE);
 					}
+					
+					for(int d = 0; d < PlayerList.players.get(id).queue.size(); d++)
+					{
+						from.send((PlayerList.players.get(id).queue.get(d)).getBytes(), Delivery.RELIABLE);
+					}
+					PlayerList.players.get(id).queue.clear();
+					
 					from.send("end".getBytes(), Delivery.RELIABLE);
 				}
-				else
+				
+				if(datasplit[0].equals("projectile"))
 				{
-					from.send("end".getBytes(), Delivery.RELIABLE);
+					for(int pp = 0; pp < PlayerList.players.size(); pp++)
+					{
+						if(PlayerList.players.get(pp).id != id)
+						{
+							PlayerList.players.get(pp).queue.add(new String(data));
+						}
+					}
 				}
 			}
 		}

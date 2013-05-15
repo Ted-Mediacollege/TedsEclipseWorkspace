@@ -19,4 +19,9 @@ public class NetworkPlayer
 			Network.queue.add("player#" + Network.playerid + "#" + px + "&" + py + "&" + vx + "&" + vy);
 		}
 	}
+	
+	public static void projectile(double x, double y, double r, int type)
+	{
+		Network.queue.add("projectile#" + Network.playerid + "#" + x + "&" + y + "&" + r + "&" + type);
+	}
 }

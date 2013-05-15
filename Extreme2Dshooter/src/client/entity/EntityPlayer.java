@@ -1,6 +1,6 @@
 package client.entity;
 
-public class EntityPlayer extends Entity
+public class EntityPlayer extends EntityLiving
 {
 	public EntityPlayer(double x, double y)
 	{
