@@ -1,5 +1,7 @@
 package client.entity;
 
+import client.world.World;
+
 public class EntityPlayer extends EntityLiving
 {
 	public EntityPlayer(double x, double y)
@@ -88,6 +90,15 @@ public class EntityPlayer extends EntityLiving
 			if(col[0]) { velY = 0D; }
 			if(col[1] && velX > 0D) { velX = 0D; }
 			if(col[2] && velX < 0D) { velX = 0D; }
+			
+			if(health < 0F)
+			{
+				posX = World.spawnX;
+				posY = World.spawnY;
+				velX = 0;
+				velY = 0;
+				health = 20F;
+			}
 			
 			posX += (velX / 10D);
 			posY += (velY / 10D);

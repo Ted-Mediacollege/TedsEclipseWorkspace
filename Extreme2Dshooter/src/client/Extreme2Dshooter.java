@@ -89,7 +89,7 @@ public class Extreme2Dshooter extends JFrame
 		networktimer--;
 		if(networktimer < 0)
 		{
-			NetworkPlayer.updatePlayer(World.player.posX, World.player.posY, World.player.velX, World.player.velY);
+			NetworkPlayer.updatePlayer(World.player.posX, World.player.posY, World.player.velX, World.player.velY, World.player.health);
 			Thread networksend = new Thread(network); 
 			networksend.start(); 
 			networktimer = 10;

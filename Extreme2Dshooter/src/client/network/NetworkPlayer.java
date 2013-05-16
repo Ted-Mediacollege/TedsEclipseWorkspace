@@ -12,11 +12,11 @@ public class NetworkPlayer
 		Network.queue.add("register");
 	}
 	
-	public static void updatePlayer(double px, double py, double vx, double vy)
+	public static void updatePlayer(double px, double py, double vx, double vy, float h)
 	{
 		if(Network.playerid != -2)
 		{
-			Network.queue.add("player#" + Network.playerid + "#" + px + "&" + py + "&" + vx + "&" + vy);
+			Network.queue.add("player#" + Network.playerid + "#" + px + "&" + py + "&" + vx + "&" + vy + "&" + h);
 		}
 	}
 	

@@ -33,7 +33,7 @@ public abstract class EntityProjectile extends Entity
 					posX < World.players.get(p).hitbox[3][0] &&
 					posY < World.players.get(p).hitbox[3][1] )
 				{
-					System.out.println("PLAYER GOT HIT BY BULLET");
+					World.players.get(p).health -= 1.5F;
 				}
 			}
 		}
@@ -42,15 +42,12 @@ public abstract class EntityProjectile extends Entity
 	
 	public void explode()
 	{
-		for(int p = 0; p < World.players.size(); p++)
+		if( World.player.posX > posX - exploderange &&
+			World.player.posX < posX + exploderange &&
+			World.player.posY > posY - exploderange &&
+			World.player.posY < posY + exploderange )
 		{
-			if( World.players.get(p).posX > posX - exploderange &&
-				World.players.get(p).posX < posX + exploderange &&
-				World.players.get(p).posY > posY - exploderange &&
-				World.players.get(p).posY < posY + exploderange )
-			{
-				System.out.println("PLAYER GOT HIT BY ROCKET");
-			}
+			World.player.health -= 2.5F;
 		}
 	}
 }
