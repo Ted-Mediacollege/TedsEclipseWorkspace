@@ -16,7 +16,10 @@ public class World
 	
 	public static int[][] level;
 	
-	public static EntityPlayer player = new EntityPlayer(20D * 24D, 10D * 24D);
+	public static double spawnX = 20D * 24D;
+	public static double spawnY = 10D * 24D;
+	
+	public static EntityPlayer player = new EntityPlayer(spawnX, spawnY);
 	public static ArrayList<EntityPlayerOther> players = new ArrayList<EntityPlayerOther>();
 	public static ArrayList<EntityProjectile> projectiles = new ArrayList<EntityProjectile>();
 	public static ArrayList<Animation> anims = new ArrayList<Animation>();
@@ -42,6 +45,16 @@ public class World
 			if(projectiles.get(p).hit)
 			{
 				projectiles.remove(p);
+			}
+		}
+		
+		for(int a = 0; a < anims.size(); a++)
+		{
+			anims.get(a).tick();
+			
+			if(anims.get(a).done)
+			{
+				anims.remove(a);
 			}
 		}
 	}

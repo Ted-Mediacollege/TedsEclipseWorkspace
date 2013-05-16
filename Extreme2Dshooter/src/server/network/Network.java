@@ -19,7 +19,7 @@ public class Network
 		{
 			server = new Server(new serverListen(), ServerPort, false);
 			server.startServer();
-			System.out.println("Ready for incoming data!");
+			//System.out.println("Ready for incoming data!");
 		}
 		catch(Exception exception)
 		{
@@ -33,11 +33,14 @@ public class Network
 		public void clientConnected(ServerConnection conn) { }
 		public void receive(byte[] data, Connection from) 
 		{
+			//System.out.println(new String(data));
+			
 			String[] datasplit = new String(data).split("#");
 			if(datasplit[0].equals("register"))
 			{
-				String registerstring = "register#" + PlayerList.nextID;
-				PlayerList.players.add(new Player(PlayerList.nextID)); PlayerList.nextID++;
+				int newid = PlayerList.getNextAvailableID();
+				String registerstring = "register#" + newid;
+				PlayerList.players.add(new Player(newid)); 
 				from.send(registerstring.getBytes(), Delivery.RELIABLE);
 			}
 			else
@@ -54,11 +57,12 @@ public class Network
 						PlayerList.players.get(id).posY = Double.parseDouble(playerdatasplit[1]);
 						PlayerList.players.get(id).velX = Double.parseDouble(playerdatasplit[2]);
 						PlayerList.players.get(id).velY = Double.parseDouble(playerdatasplit[3]);
+						PlayerList.players.get(id).health = Float.parseFloat(playerdatasplit[4]);
 					}
 					
 					for(int p = 0; p < PlayerList.players.size(); p++)
 					{
-						String newstring = "player#" + PlayerList.players.get(p).id + "#" + PlayerList.players.get(p).posX + "&" + PlayerList.players.get(p).posY + "&" + PlayerList.players.get(p).velX + "&" + PlayerList.players.get(p).velY;
+						String newstring = "player#" + PlayerList.players.get(p).id + "#" + PlayerList.players.get(p).posX + "&" + PlayerList.players.get(p).posY + "&" + PlayerList.players.get(p).velX + "&" + PlayerList.players.get(p).velY + "&" + PlayerList.players.get(p).health;
 						from.send(newstring.getBytes(), Delivery.RELIABLE);
 					}
 					

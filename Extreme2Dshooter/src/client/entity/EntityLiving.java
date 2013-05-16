@@ -48,4 +48,17 @@ public class EntityLiving extends Entity
 		
 		return col;
 	}
+	
+	public boolean groundCollision()
+	{
+		for(int l = hitbox[1][0]; l < hitbox[3][0]; l++)
+		{
+			if(World.level[(int) Math.floor((posX + l) / 24D)][(int) Math.floor((posY + hitbox[1][1] + 1) / 24D)] > 0)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }

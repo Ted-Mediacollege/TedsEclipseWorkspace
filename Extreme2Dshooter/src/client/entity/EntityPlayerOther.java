@@ -28,33 +28,18 @@ public class EntityPlayerOther extends EntityLiving
 	}
 	
 	public void tick()
-	{
-		/*boolean[] col = collision();
-
-		if(col[3] && !onfeet)
-		{
-			onfeet = true;
-		}
-		else if(col[3])
-		{
-			onfeet = true;
-		}
-		else
-		{
-			onfeet = false;
-		}
-		
-		if(onfeet)
+	{	
+		if(groundCollision())
 		{
 			velY = 0D;
 		}
 		else
 		{
 			if(velY < 5)
-			{*/
+			{
 				velY += 0.2D;
-			//}
-		//}
+			}
+		}
 		
 		posX += velX;
 		posY += velY;

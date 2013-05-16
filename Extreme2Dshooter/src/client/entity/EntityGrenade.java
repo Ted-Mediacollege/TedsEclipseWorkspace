@@ -4,16 +4,19 @@ import client.fx.AnimationExplosion;
 import client.util.Coords;
 import client.world.World;
 
-public class EntityRocket extends EntityProjectile
+public class EntityGrenade extends EntityProjectile
 {
-	public EntityRocket(int i, double x, double y, double r)
+	public double velY;
+	
+	public EntityGrenade(int i, double x, double y, double r)
 	{
 		id = i;
 		posX = x;
 		posY = y;
 		posR = r;
+		velY = -3.0D;
 		explodable = true;
-		exploderange = 96D;
+		exploderange = 50D;
 	}
 	
 	public void tick(int s)

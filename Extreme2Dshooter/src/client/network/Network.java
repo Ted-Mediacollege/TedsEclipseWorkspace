@@ -23,6 +23,7 @@ public class Network implements Runnable
 	
 	public static ArrayList<String> queue = new ArrayList<String>();
 	
+	public static boolean conected = false;
 	public static int playerid = -2;
 	
 	public Network()
@@ -36,16 +37,19 @@ public class Network implements Runnable
 		{ 
 			conection = new ClientConnection(new clientListener(), ServerIP , ServerPort, false);
 			conection.connect(200);
+			conected = true;
 			
 			for(int q = 0; q < queue.size(); q++)
 			{
+				System.out.println(queue.get(q));
 				conection.send(queue.get(q).getBytes(), Delivery.RELIABLE);
 			}
-
+			
 			queue = new ArrayList<String>();
 		}
 		catch(Exception exception)
 		{
+			conected = false;
 			System.out.println("cannot send data to server!");
 		}
 	}
@@ -94,6 +98,7 @@ public class Network implements Runnable
 						World.players.get(id).posY = Double.parseDouble(playerdatasplit[1]);
 						World.players.get(id).velX = Double.parseDouble(playerdatasplit[2]);
 						World.players.get(id).velY = Double.parseDouble(playerdatasplit[3]);
+						World.players.get(id).health = Float.parseFloat(playerdatasplit[4]);
 					}
 				}
 				else if(datasplit[0].equals("projectile"))
