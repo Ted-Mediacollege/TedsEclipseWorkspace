@@ -28,12 +28,12 @@ public abstract class EntityProjectile extends Entity
 		{
 			if(World.players.get(p).id != Network.playerid)
 			{
-				if( posX > World.players.get(p).hitbox[0][0] &&
-					posY > World.players.get(p).hitbox[0][1] &&
-					posX < World.players.get(p).hitbox[3][0] &&
-					posY < World.players.get(p).hitbox[3][1] )
+				if( World.players.get(p).hitbox[0][0] < posX &&
+					World.players.get(p).hitbox[0][1] < posY &&
+					World.players.get(p).hitbox[3][0] > posX &&
+					World.players.get(p).hitbox[3][1] > posY )
 				{
-					World.players.get(p).health -= 1.5F;
+					return true;
 				}
 			}
 		}

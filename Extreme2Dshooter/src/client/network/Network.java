@@ -41,7 +41,6 @@ public class Network implements Runnable
 			
 			for(int q = 0; q < queue.size(); q++)
 			{
-				System.out.println(queue.get(q));
 				conection.send(queue.get(q).getBytes(), Delivery.RELIABLE);
 			}
 			
@@ -75,7 +74,6 @@ public class Network implements Runnable
 				if(datasplit[0].equals("register"))
 				{
 					int pID = Integer.parseInt(datasplit[1]);
-					//System.out.println("PlayerID = " + pID);
 					playerid = pID;
 				}
 				else if(datasplit[0].equals("player"))
@@ -84,7 +82,7 @@ public class Network implements Runnable
 					
 					int id = World.getPlayerFromID(Integer.parseInt(datasplit[1]));
 					
-					if(id == playerid)
+					if(Integer.parseInt(datasplit[1]) == playerid)
 					{
 						//do nothing
 					}

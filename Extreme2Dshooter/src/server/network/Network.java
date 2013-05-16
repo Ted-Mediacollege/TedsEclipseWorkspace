@@ -33,7 +33,7 @@ public class Network
 		public void clientConnected(ServerConnection conn) { }
 		public void receive(byte[] data, Connection from) 
 		{
-			//System.out.println(new String(data));
+			System.out.println(new String(data));
 			
 			String[] datasplit = new String(data).split("#");
 			if(datasplit[0].equals("register"))
