@@ -1,6 +1,8 @@
 package client.entity;
 
+import client.fx.AnimationBullethit;
 import client.util.Coords;
+import client.world.World;
 
 public class EntityBullet extends EntityProjectile
 {
@@ -27,6 +29,8 @@ public class EntityBullet extends EntityProjectile
 				
 				if(entity || terrain)
 				{
+					if(entity) {  }
+					if(terrain) { World.anims.add(new AnimationBullethit((int) Math.floor(posX), (int) Math.floor(posY))); }
 					hit = true;
 				}
 			}

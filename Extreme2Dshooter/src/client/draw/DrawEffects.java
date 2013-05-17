@@ -11,13 +11,14 @@ import client.world.World;
 
 public class DrawEffects 
 {
-	private BufferedImage[] textures = new BufferedImage[1];
+	private BufferedImage[] textures = new BufferedImage[2];
 	
 	public DrawEffects()
 	{
 		try
 		{
 			textures[0] = ImageIO.read(new File("textures/explosion.png"));
+			textures[1] = ImageIO.read(new File("textures/Bullethit.png"));
 		}
 		catch(Exception e)
 		{
@@ -30,7 +31,7 @@ public class DrawEffects
 		for(int i = 0; i < World.anims.size(); i++)
 		{
 			g.drawImage(
-				textures[0], 
+				textures[World.anims.get(i).texture], 
 				World.anims.get(i).posX - (int) Math.floor(World.anims.get(i).sizeX / 2), 
 				World.anims.get(i).posY - (int) Math.floor(World.anims.get(i).sizeY / 2), 
 				World.anims.get(i).posX - (int) Math.floor(World.anims.get(i).sizeX / 2) + World.anims.get(i).sizeX, 
