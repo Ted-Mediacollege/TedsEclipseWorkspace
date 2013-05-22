@@ -20,7 +20,7 @@ public class WorldGen extends JFrame
 	public WorldGen()
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1500 + 6, 800 + 28);
+		setSize(300*5, 200*5);
 		setLocationRelativeTo(null);
 		setTitle("WORLD GEN TEST 1");
 		setResizable(false);		
