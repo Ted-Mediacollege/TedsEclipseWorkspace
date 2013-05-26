@@ -14,9 +14,17 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-public class LwjglTest1 
+public class lwjgltestcar 
 {
-	public LwjglTest1()
+	float carX = -450;
+	float carY = 200;
+	float wheelR = 0;
+	float speed = 2;
+	
+	int carTextureID;
+	int wheelTextureID;
+	
+	public lwjgltestcar()
 	{
 		try
 		{
@@ -36,6 +44,11 @@ public class LwjglTest1
 		start();
 	}
 	
+	public static void main(String[] args) 
+	{
+		new lwjgltestcar();
+	}
+	
 	public void initOpenGL()
 	{
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -43,53 +56,72 @@ public class LwjglTest1
 		GL11.glOrtho(0, 800, 0, 600, 1, -1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glClearColor(1F, 1F, 1F, 1F);
 	}
 	
 	public void loadalltextures()
 	{
-		int i = load("test");
-		System.out.println(i);
+		carTextureID = load("car");
+		wheelTextureID = load("wheel");
 	}
 	
 	public void start()
 	{
 		while(!Display.isCloseRequested())
 		{
+			carX += speed;
+			wheelR += speed;
+			if(carX > 700)
+			{
+				carX = -450;
+			}
+			if(wheelR > 360)
+			{
+				wheelR = 0;
+			}
+
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT); 
 			
+			//CAR 450 168
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, 1);
 			GL11.glColor3f(1, 1, 1);
-			
 			GL11.glPushMatrix();
 				GL11.glBegin(GL11.GL_QUADS);
-				
-				GL11.glTexCoord2f(0.00f, 1.00f); GL11.glVertex2f(0, 0);
-				GL11.glTexCoord2f(0.50f, 1.00f); GL11.glVertex2f(32, 0);
-				GL11.glTexCoord2f(0.50f, 0.00f); GL11.glVertex2f(32, 32);
-				GL11.glTexCoord2f(0.00f, 0.00f); GL11.glVertex2f(0, 32);
-				
+				GL11.glTexCoord2f(1.00f, 1.00f); GL11.glVertex2f(carX, carY);
+				GL11.glTexCoord2f(0.00f, 1.00f); GL11.glVertex2f(carX + 450, carY);
+				GL11.glTexCoord2f(0.00f, 0.00f); GL11.glVertex2f(carX + 450, carY + 168);
+				GL11.glTexCoord2f(1.00f, 0.00f); GL11.glVertex2f(carX, carY + 168);
 				GL11.glEnd();
 			GL11.glPopMatrix();
 			
+			//WHEELS 60 61
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, wheelTextureID);
+			GL11.glColor3f(1, 1, 1);
 			GL11.glPushMatrix();
+				//GL11.glRotatef(wheelR, 0F, 0F, 1F);
 				GL11.glBegin(GL11.GL_QUADS);
-				
-				GL11.glTexCoord2f(0.50f, 1.00f); GL11.glVertex2f(32, 0);
-				GL11.glTexCoord2f(1.00f, 1.00f); GL11.glVertex2f(64, 0);
-				GL11.glTexCoord2f(1.00f, 0.00f); GL11.glVertex2f(64, 32);
-				GL11.glTexCoord2f(0.50f, 0.00f); GL11.glVertex2f(32, 32);
-				
+				GL11.glTexCoord2f(1.00f, 1.00f); GL11.glVertex2f(0 + carX + 62, 0 + carY + 18);
+				GL11.glTexCoord2f(0.00f, 1.00f); GL11.glVertex2f(60 + carX + 62, 0 + carY + 18);
+				GL11.glTexCoord2f(0.00f, 0.00f); GL11.glVertex2f(60 + carX + 62, 61 + carY + 18);
+				GL11.glTexCoord2f(1.00f, 0.00f); GL11.glVertex2f(0 + carX + 62, 61 + carY + 18);
+				GL11.glEnd();
+			GL11.glPopMatrix();
+
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, wheelTextureID);
+			GL11.glColor3f(1, 1, 1);
+			GL11.glPushMatrix();
+				//GL11.glRotatef(wheelR, 0F, 0F, 1F);
+				GL11.glBegin(GL11.GL_QUADS);
+				GL11.glTexCoord2f(1.00f, 1.00f); GL11.glVertex2f(0 + carX + 340, 0 + carY + 18);
+				GL11.glTexCoord2f(0.00f, 1.00f); GL11.glVertex2f(60 + carX + 340, 0 + carY + 18);
+				GL11.glTexCoord2f(0.00f, 0.00f); GL11.glVertex2f(60 + carX + 340, 61 + carY + 18);
+				GL11.glTexCoord2f(1.00f, 0.00f); GL11.glVertex2f(0 + carX + 340, 61 + carY + 18);
 				GL11.glEnd();
 			GL11.glPopMatrix();
 			
 			Display.update();
 			Display.sync(60);
 		}
-	}
-	
-	public static void main(String[] args) 
-	{
-		new LwjglTest1();
 	}
 	
 	public static int load(String file) 
