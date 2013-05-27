@@ -25,8 +25,8 @@ public class World
 		if(gentimer < 0)
 		{
 			createWorld();
-			camX += 0.1F;
-			gentimer = 10;
+			gentimer = 5;
+			camX += 0.01;
 		}
 	}
 	
@@ -38,7 +38,8 @@ public class World
 		{
 			for(int j = 0; j < 200; j++)
 			{
-				terrain[i][j] = perlinNoise.turbulence2(camX + (float) i / 50F, camX + (float) j / 50F, 20F) ;
+				terrain[i][j] = (perlinNoise.turbulence2((camX / 16) + (float) i / 800F, (camX / 16) + (float) j / 800F, 20F) * 400) + (perlinNoise.turbulence2((camX / 2) + (float) i / 100F, (camX / 2) + (float) j / 100F, 20F) * 80) + (perlinNoise.turbulence2(camX + (float) i / 50F, camX + (float) j / 50F, 20F) * 10);
+				//terrain[i][j] = (perlinNoise.turbulence2(camX + (float) i / 400F, camX + (float) j / 400F, 20F) * 200);
 			}
 		}
 	}
