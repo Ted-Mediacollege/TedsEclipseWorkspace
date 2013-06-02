@@ -1,17 +1,15 @@
-package client.world;
+package client.world.chunk;
 
 public class Chunk 
 {
+	public int[][] terrain;
 	public int chunkX;
 	public int chunkY;
 	
-	public int[][] terrain;
-	
 	public Chunk(int x, int y, int[][] t)
 	{
+		terrain = t;
 		chunkX = x;
 		chunkY = y;
-		
-		terrain = t;
 	}
 }

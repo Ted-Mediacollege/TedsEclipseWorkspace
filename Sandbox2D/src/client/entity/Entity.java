@@ -1,5 +1,7 @@
 package client.entity;
 
-public class Entity {
-
+public abstract class Entity 
+{
+	public float posX;
+	public float posY;
 }
