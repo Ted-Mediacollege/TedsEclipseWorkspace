@@ -25,7 +25,11 @@ public class Painter extends JPanel implements Runnable
 		{
 			for(int l = 0; l < World.map[0].length; l++)
 			{
-				if(World.map[k][l] == 1)
+				if(World.used[k][l])
+				{
+					g.setColor(new Color(200, 0, 0));
+				}
+				else if(World.map[k][l] == 1)
 				{
 					g.setColor(new Color(100, 100, 100));
 				}
@@ -37,12 +41,22 @@ public class Painter extends JPanel implements Runnable
 			}
 		}
 		
-		for(int k = 0; k < World.paths.size(); k++)
+		/*for(int k = 0; k < World.paths.size(); k++)
 		{
 			if(!World.paths.get(k).dead)
 			{
 				g.setColor(new Color(0, 0, 0));
-				g.drawOval(World.paths.get(k).curX * 20, World.paths.get(k).curY * 20, 20, 20);
+				g.fillRect(World.paths.get(k).curX * 20, World.paths.get(k).curY * 20, 20, 20);
+			}
+		}*/
+
+		if(World.path != null)
+		{
+			g.setColor(new Color(0, 0, 200));
+			for(int k = 0; k < World.path.size(); k++)
+			{
+				int[] pos = World.path.get(k); 
+				g.fillRect(pos[0] * 20, pos[1] * 20, 20, 20);
 			}
 		}
 		

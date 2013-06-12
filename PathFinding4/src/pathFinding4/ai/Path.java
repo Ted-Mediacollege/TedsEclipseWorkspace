@@ -8,11 +8,11 @@ public class Path
 	public int dir;
 	public int curX;
 	public int curY;
-	public ArrayList<int[]> path;
+	public ArrayList<int[]> oldpath;
 
 	public Path(int x, int y, int d)
 	{
-		path = new ArrayList<int[]>();
+		oldpath = new ArrayList<int[]>();
 		curX = x;
 		curY = y;
 		dir = d;
@@ -21,7 +21,7 @@ public class Path
 	
 	public Path(int x, int y, int d, ArrayList<int[]> p)
 	{
-		path = p;
+		oldpath = p;
 		curX = x;
 		curY = y;
 		dir = d;

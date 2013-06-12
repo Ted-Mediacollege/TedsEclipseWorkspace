@@ -11,10 +11,10 @@ public class World
 	
 	public static int[][] map = new int[40][40];
 	
-	public static ArrayList<Path> paths;
+	private ArrayList<Path> paths;
 	public static boolean[][] used;
 	public static boolean calculating;
-	public static int calctimer;
+	public static int calctimer = 3;
 	
 	public static int worldtimer = 180;
 	
@@ -71,25 +71,25 @@ public class World
 		{
 			for(int j = 0; j < map[0].length; j++)
 			{
-				//if(rand.nextInt(10) == 0)
-				//{
-				//	map[i][j] = 1;
-				//}
-				//else
-				//{
+				if(rand.nextInt(10) == 0)
+				{
+					map[i][j] = 1;
+				}
+				else
+				{
 					map[i][j] = 0;
-				//}
+				}
 			}
 		}
 	}
 	
 	public void tick()
 	{
-		//worldtimer--;
+		worldtimer--;
 		if(worldtimer < 0)
 		{
 			createNewWorld();
-			//worldtimer = 180;
+			worldtimer = 2000;
 		}
 		
 		calctimer--;
@@ -97,12 +97,13 @@ public class World
 		{
 			if(calculating) { calculate(); }
 			
-			calctimer = 20;
+			calctimer = 3;
 		}
 	}
 	
 	public void createNewWorld()
-	{		
+	{	
+		System.out.println("CREATE WORLD");
 		paths = new ArrayList<Path>();
 		used = new boolean[40][40];
 		calctimer = 0;
@@ -111,13 +112,14 @@ public class World
 		genRandomWorld();
 		setStartAndTarget();
 		paths.add(new Path(start[0],start[1],1));
+		path = new ArrayList<int[]>();
 	}
 	
 	public boolean getEmpty(int x, int y)
 	{
 		if(x > -1 && x < used[0].length && y > -1 && y < used.length)
 		{
-			if(!used[x][y])
+			if(!used[x][y] && map[x][y] == 0)
 			{
 				return true;
 			}
@@ -134,81 +136,85 @@ public class World
 		{	
 			if(!paths.get(p).dead)
 			{
-				System.out.println("FINDING");
-				
 				//LOAD PATH
-				int x = paths.get(p).curY;
-				int y = paths.get(p).curX;
+				int x = paths.get(p).curX;
+				int y = paths.get(p).curY;
 				int d = paths.get(p).dir;
 				
 				//CHECK FOR TARGET
 				if(x == target[0] && y == target[1])
 				{
 					found = true;
-					System.out.println("PATH FOUND");
+					path = paths.get(p).oldpath;
+					worldtimer = 40;
 					break;
 				}
 				
 				//CREATE NEW PATHS
-				if(getEmpty(x, y - 1) && d != 0)
+				if(getEmpty(x, y - 1))// && d != 0)
 				{
-					ArrayList<int[]> newpath = paths.get(p).path;
+					ArrayList<int[]> newpath = paths.get(p).oldpath;
+					
 					newpath.add(new int[]{x,y});
+					System.out.println(paths.get(p).oldpath.size());
 					paths.add(new Path(x, y - 1, 0, newpath));
 					used[x][y - 1] = true;
 				}
-				if(getEmpty(x + 1, y) && d != 1)
+				if(getEmpty(x + 1, y))// && d != 1)
 				{
-					ArrayList<int[]> newpath = paths.get(p).path;
+					ArrayList<int[]> newpath = paths.get(p).oldpath;
 					newpath.add(new int[]{x,y});
+					System.out.println(paths.get(p).oldpath.size());
 					paths.add(new Path(x + 1, y, 1, newpath));
 					used[x + 1][y] = true;
 				}
-				if(getEmpty(x, y + 1) && d != 2)
+				if(getEmpty(x, y + 1))// && d != 2)
 				{
-					ArrayList<int[]> newpath = paths.get(p).path;
+					ArrayList<int[]> newpath = paths.get(p).oldpath;
 					newpath.add(new int[]{x,y});
+					System.out.println(paths.get(p).oldpath.size());
 					paths.add(new Path(x, y + 1, 2, newpath));
 					used[x][y + 1] = true;
 				}
-				if(getEmpty(x - 1, y) && d != 3)
+				if(getEmpty(x - 1, y))// && d != 3)
 				{
-					ArrayList<int[]> newpath = paths.get(p).path;
+					ArrayList<int[]> newpath = paths.get(p).oldpath;
 					newpath.add(new int[]{x,y});
+					System.out.println(paths.get(p).oldpath.size());
 					paths.add(new Path(x - 1, y, 3, newpath));
 					used[x - 1][y] = true;
 				}
 				
 				//MOVE PATH
 				boolean alive = false;
-				if(getEmpty(x, y - 1) && d == 0)
+				/*if(getEmpty(x, y - 1) && d == 0)
 				{
-					paths.get(p).path.add(new int[]{x,y});
+					paths.get(p).oldpath.add(new int[]{x,y});
 					paths.get(p).curY--;
 					used[x][y - 1] = true;
 					alive = true;
 				}
 				if(getEmpty(x + 1, y) && d == 1)
 				{
-					paths.get(p).path.add(new int[]{x,y});
+					paths.get(p).oldpath.add(new int[]{x,y});
 					paths.get(p).curX++;
 					used[x + 1][y] = true;
 					alive = true;
 				}
 				if(getEmpty(x, y + 1) && d == 2)
 				{
-					paths.get(p).path.add(new int[]{x,y});
+					paths.get(p).oldpath.add(new int[]{x,y});
 					paths.get(p).curY++;
 					used[x][y + 1] = true;
 					alive = true;
 				}
 				if(getEmpty(x - 1, y) && d == 3)
 				{
-					paths.get(p).path.add(new int[]{x,y});
-					paths.get(p).curY--;
+					paths.get(p).oldpath.add(new int[]{x,y});
+					paths.get(p).curX--;
 					used[x - 1][y] = true;
 					alive = true;
-				}
+				}*/
 				
 				//CHECK IF DEAD
 				if(!alive)
