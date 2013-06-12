@@ -26,7 +26,7 @@ public class World
 		{
 			createWorld();
 			gentimer = 5;
-			camX += 0.01;
+			camX += 0.05;
 		}
 	}
 	
