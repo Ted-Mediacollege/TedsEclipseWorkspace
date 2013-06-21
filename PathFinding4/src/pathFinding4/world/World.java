@@ -16,10 +16,11 @@ public class World
 	public static boolean calculating;
 	public static int calctimer = 3;
 	
-	public static int worldtimer = 180;
+	public static int worldtimer = 3000;
 	
 	public static boolean calculated;
-	public static ArrayList<int[]> path;
+	public static int[][] path;
+	public static int pathlength;
 	
 	public static int[] start;
 	public static int[] target;
@@ -34,7 +35,12 @@ public class World
 		start = new int[2];
 		target = new int[2];
 		
-		boolean f1 = false;
+		start[0] = 20;
+		start[1] = 30;
+		target[0] = 10;
+		target[1] = 10;
+		
+		/*boolean f1 = false;
 		while(!f1)
 		{
 			int rx = rand.nextInt(40);
@@ -62,7 +68,7 @@ public class World
 				target[1] = ry;
 				break;
 			}
-		}
+		}*/
 	}
 	
 	public void genRandomWorld()
@@ -71,26 +77,26 @@ public class World
 		{
 			for(int j = 0; j < map[0].length; j++)
 			{
-				if(rand.nextInt(10) == 0)
-				{
-					map[i][j] = 1;
-				}
-				else
-				{
+				//if(rand.nextInt(3) == 0)
+				//{
+				//	map[i][j] = 1;
+				//}
+				//else
+				//{
 					map[i][j] = 0;
-				}
+				//}
 			}
 		}
 	}
 	
 	public void tick()
 	{
-		worldtimer--;
-		if(worldtimer < 0)
-		{
-			createNewWorld();
-			worldtimer = 2000;
-		}
+		//worldtimer--;
+		//if(worldtimer < 0)
+		//{
+		//	createNewWorld();
+		//	worldtimer = 3000;
+		//}
 		
 		calctimer--;
 		if(calctimer < 0)
@@ -98,6 +104,11 @@ public class World
 			if(calculating) { calculate(); }
 			
 			calctimer = 3;
+		}
+		
+		if(calculated)
+		{
+			
 		}
 	}
 	
@@ -112,7 +123,8 @@ public class World
 		genRandomWorld();
 		setStartAndTarget();
 		paths.add(new Path(start[0],start[1],1));
-		path = new ArrayList<int[]>();
+		path = new int[400][2];
+		pathlength = 0;
 	}
 	
 	public boolean getEmpty(int x, int y)
@@ -130,6 +142,8 @@ public class World
 	public void calculate()
 	{
 		boolean found = false;
+		boolean stuck = true;
+		int foundID = 0;
 		
 		int pathsSize = paths.size();
 		for(int p = 0; p < pathsSize; p++) 
@@ -140,12 +154,16 @@ public class World
 				int x = paths.get(p).curX;
 				int y = paths.get(p).curY;
 				int d = paths.get(p).dir;
+				int l = paths.get(p).pathlength;
+				paths.get(p).oldpath[l][0] = x;
+				paths.get(p).oldpath[l][1] = y;
+				l += 1;
 				
 				//CHECK FOR TARGET
 				if(x == target[0] && y == target[1])
 				{
 					found = true;
-					path = paths.get(p).oldpath;
+					foundID = p;
 					worldtimer = 40;
 					break;
 				}
@@ -153,36 +171,31 @@ public class World
 				//CREATE NEW PATHS
 				if(getEmpty(x, y - 1))// && d != 0)
 				{
-					ArrayList<int[]> newpath = paths.get(p).oldpath;
-					
-					newpath.add(new int[]{x,y});
-					System.out.println(paths.get(p).oldpath.size());
-					paths.add(new Path(x, y - 1, 0, newpath));
+					int[][] newpath = paths.get(p).oldpath;
+					paths.add(new Path(x, y - 1, 0, newpath, l));
 					used[x][y - 1] = true;
+					stuck = false;
 				}
 				if(getEmpty(x + 1, y))// && d != 1)
 				{
-					ArrayList<int[]> newpath = paths.get(p).oldpath;
-					newpath.add(new int[]{x,y});
-					System.out.println(paths.get(p).oldpath.size());
-					paths.add(new Path(x + 1, y, 1, newpath));
+					int[][] newpath = paths.get(p).oldpath;
+					paths.add(new Path(x + 1, y, 1, newpath, l));
 					used[x + 1][y] = true;
+					stuck = false;
 				}
 				if(getEmpty(x, y + 1))// && d != 2)
 				{
-					ArrayList<int[]> newpath = paths.get(p).oldpath;
-					newpath.add(new int[]{x,y});
-					System.out.println(paths.get(p).oldpath.size());
-					paths.add(new Path(x, y + 1, 2, newpath));
+					int[][] newpath = paths.get(p).oldpath;
+					paths.add(new Path(x, y + 1, 2, newpath, l));
 					used[x][y + 1] = true;
+					stuck = false;
 				}
 				if(getEmpty(x - 1, y))// && d != 3)
 				{
-					ArrayList<int[]> newpath = paths.get(p).oldpath;
-					newpath.add(new int[]{x,y});
-					System.out.println(paths.get(p).oldpath.size());
-					paths.add(new Path(x - 1, y, 3, newpath));
+					int[][] newpath = paths.get(p).oldpath;
+					paths.add(new Path(x - 1, y, 3, newpath, l));
 					used[x - 1][y] = true;
+					stuck = false;
 				}
 				
 				//MOVE PATH
@@ -224,10 +237,19 @@ public class World
 			}
 		}
 		
+		if(stuck)
+		{
+			worldtimer = 40;
+		}
+		
 		if(found)
 		{
 			calculated = true;
 			calculating = false;
+
+			System.out.println(foundID + " " + paths.size());
+			path = paths.get(foundID).oldpath;
+			pathlength = paths.get(foundID).pathlength;
 		}
 	}
 	

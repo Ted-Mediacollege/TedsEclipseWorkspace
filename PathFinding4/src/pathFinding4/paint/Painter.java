@@ -53,10 +53,9 @@ public class Painter extends JPanel implements Runnable
 		if(World.path != null)
 		{
 			g.setColor(new Color(0, 0, 200));
-			for(int k = 0; k < World.path.size(); k++)
+			for(int k = 0; k < World.pathlength; k++)
 			{
-				int[] pos = World.path.get(k); 
-				g.fillRect(pos[0] * 20, pos[1] * 20, 20, 20);
+				g.fillRect(World.path[k][0] * 20, World.path[k][1] * 20, 20, 20);
 			}
 		}
 		
