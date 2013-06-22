@@ -22,10 +22,28 @@ public class Draw extends JPanel implements Runnable
 	{
 		super.paint(g);
 
-		g.setColor(new Color(0,0,0));
 		for(int i = 0; i < World.nodes.size(); i++)
-		{
-			if(World.nodes.get(i).visited)
+		{			
+			g.setColor(new Color(200,200,200));
+			for(int j = 0; j < World.nodes.get(i).connections.size(); j++)
+			{
+				g.drawLine(
+					World.nodes.get(i).posX, 
+					World.nodes.get(i).posY, 
+					World.nodes.get(World.nodes.get(i).connections.get(j)).posX, 
+					World.nodes.get(World.nodes.get(i).connections.get(j)).posY
+				);
+				
+			}
+		}
+			
+		for(int i = 0; i < World.nodes.size(); i++)
+		{		
+			if(i == World.startNode || i == World.endNode)
+			{
+				g.setColor(new Color(0,0,255));
+			}
+			else if(World.nodes.get(i).visited)
 			{
 				g.setColor(new Color(255,0,0));
 			}
@@ -35,18 +53,6 @@ public class Draw extends JPanel implements Runnable
 			}
 			
 			g.drawOval(World.nodes.get(i).posX - 5, World.nodes.get(i).posY - 5, 10, 10);
-			
-			g.setColor(new Color(0,0,0));
-			for(int j = 0; j < World.nodes.get(i).connections.size(); j++)
-			{
-				/*g.drawLine(
-					World.nodes.get(i).posX, 
-					World.nodes.get(i).posY, 
-					World.nodes.get(World.nodes.get(i).connections.get(j)).posX, 
-					World.nodes.get(World.nodes.get(i).connections.get(j)).posY
-				);*/
-				
-			}
 		}
 		
 		g.setColor(new Color(255,0,0));
@@ -73,13 +79,13 @@ public class Draw extends JPanel implements Runnable
 		if(World.calculatedPath != null)
 		{
 			g.setColor(new Color(0,0,255));
-			for(int l = 1; l < World.calculatedPath.size(); l++)
+			for(int l = 1; l < World.calculatedPath.length; l++)
 			{
 				g.drawLine(
-					World.nodes.get(World.calculatedPath.get(l - 1)).posX, 
-					World.nodes.get(World.calculatedPath.get(l - 1)).posY, 
-					World.nodes.get(World.calculatedPath.get(l)).posX, 
-					World.nodes.get(World.calculatedPath.get(l)).posY
+					World.nodes.get(World.calculatedPath[l - 1]).posX, 
+					World.nodes.get(World.calculatedPath[l - 1]).posY, 
+					World.nodes.get(World.calculatedPath[l]).posX, 
+					World.nodes.get(World.calculatedPath[l]).posY
 				);
 			}
 		}

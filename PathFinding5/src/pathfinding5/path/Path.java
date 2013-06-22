@@ -1,7 +1,5 @@
 package pathfinding5.path;
 
-import java.util.ArrayList;
-
 public class Path 
 {
 	public boolean dead = false;
@@ -9,7 +7,7 @@ public class Path
 	public int travelreq = 0;
 	public int nodeID = 0;
 	public int target = 0;
-	private ArrayList<Integer> nodes = new ArrayList<Integer>();
+	public String nodes = "";
 	
 	public Path(int i, int t, int q)
 	{
@@ -17,20 +15,15 @@ public class Path
 		target = t;
 		travel = 0;
 		travelreq = q;
-		nodes.add(i);
+		nodes = i + "";
 	}
 	
-	public Path(int i, ArrayList<Integer> n, int t, int q)
+	public Path(int i, String n, int t, int q)
 	{
 		nodeID = i;
 		target = t;
 		nodes = n;
 		travel = 0;
 		travelreq = q;
-	}
-	
-	public ArrayList<Integer> getNodes()
-	{
-		return nodes;
 	}
 }

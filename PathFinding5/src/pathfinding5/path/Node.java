@@ -11,6 +11,14 @@ public class Node
 	public int posY;
 	
 	public boolean visited;
+
+	public Node(int id, int x, int y)
+	{
+		nodeID = id;
+		posX = x;
+		posY = y;
+		visited = false;
+	}
 	
 	public Node(int id, int x, int y, ArrayList<Integer> c)
 	{
@@ -33,5 +41,10 @@ public class Node
 		}
 		
 		visited = false;
+	}
+	
+	public void setConnections(ArrayList<Integer> c)
+	{
+		connections = c;
 	}
 }
