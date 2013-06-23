@@ -23,7 +23,7 @@ public class AirTraffic1 extends JFrame
 	public AirTraffic1()
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1024 + 6, 768 + 28);
+		setSize(1200 + 6, 800 + 28);
 		setLocationRelativeTo(null);
 		setTitle("AirTraffic1");
 		setResizable(false);	
@@ -65,16 +65,10 @@ public class AirTraffic1 extends JFrame
 	{
     	public void mouseMoved(MouseEvent e)
     	{
-    		mousepos[0] = e.getX() - 6;
-    		mousepos[1] = e.getY() - 28;
     	}
     	
     	public void mousePressed(MouseEvent e)
     	{
-    		mousepos[0] = e.getX() - 6;
-    		mousepos[1] = e.getY() - 28;
-    		
-    		world.updateAirplane(mousepos[0], mousepos[1]);
     	}
 	}
 }
