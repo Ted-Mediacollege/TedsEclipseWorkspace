@@ -34,19 +34,19 @@ public class Draw extends JPanel implements Runnable
 				{
 					int c = World.terrain[x][y];
 					
-					if(c > y - World.snow1[x] || c > (770 - y) - World.snow2[x])
+					/*if(c > y - World.snow1[x] || c > (770 - y) - World.snow2[x])
 					{
 						if(c >= 0 && c < 40)
 						{
 							g.setColor(new Color(230,230,230));
 						}
-						else
+						else 
 						{
-							g.setColor(new Color(210 - (c - 40),210 - (c - 40),210 - (c - 40)));
+							g.setColor(new Color(210 - ((int) Math.floor(c / 1.5D) - 10),210 - ((int) Math.floor(c / 1.5D) - 10),210 - ((int) Math.floor(c / 1.5D) - 10)));
 						}
 					}
 					else
-					{
+					{*/
 						if(c >= 0 && c < 40)
 						{
 							int mcolor = c * 7;
@@ -62,7 +62,7 @@ public class Draw extends JPanel implements Runnable
 						{
 							g.setColor(new Color(0,50 + (c * 2),0));
 						}
-					}
+					//}
 					
 					g.drawLine(x, y, x, y);
 				}

@@ -29,7 +29,7 @@ public class World implements Runnable
 				float huge = noise.turbulence2(x / 800F, y / 800F, 10) * (50 * var);
 				float big = noise.turbulence2(x / 300F, y / 300F, 10) * (40 * var);
 				float lhill = noise.turbulence2(x / 100F, y / 100F, 10) * (20 * var);
-				float shill = noise.turbulence2(x / 30F, y / 30F, 10) * (10 * var);
+				float shill = noise.turbulence2(x / 30F, y / 30F, 10) * 10;
 				
 				float total = 50 + (huge - 12) + big + lhill + shill;
 				if(total > 100F) { total = 100F; }
